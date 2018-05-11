@@ -6,6 +6,7 @@ class ArticlesController < ApplicationController
     if params[:category].blank?
       @articles = Article.all.order("created_at DESC")
     else
+      @category_id = Category.find_by(name: params[:category]).id
       @articles = Article.where(category_id: @category_id).order("created_at DESC")
     end
   end
@@ -28,7 +29,7 @@ class ArticlesController < ApplicationController
 
   private
   def article_params
-    params.require(:article).permit(:title, :content, :category)
+    params.require(:article).permit(:title, :content, :category_id)
   end
 
   def find_article
